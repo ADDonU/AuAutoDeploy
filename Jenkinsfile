@@ -52,49 +52,6 @@ pipeline {
         }
         
 
-/*
-        stage ('Sonar Analysis') {
-            environment {
-                MONO_HOME = '/Library/Frameworks/Mono.framework/Versions/Current'
-                DOTNET_HOME= '/usr/local/share/dotnet'
-            }
-            steps {
-                sh """
-                    /Applications/Unity/Unity.app/Contents/MacOS/Unity 
-                        -batchmode 
-                        -nographics    
-                        -silent-crashes
-                        -executeMethod ProjectExporter.ExportCSharpProject
-                        -quit 
-                        -logFile /dev/stdout
-                """.replaceAll("[\r\n]+"," ")
-
-
-                withSonarQubeEnv('Sonar') {
-
-                    sh """
-                        ${MONO_HOME}/Commands/mono 
-                            /opt/sonar-scanner-msbuild/SonarQube.Scanner.MSBuild.exe begin 
-                            /key:Cubica
-                            /d:sonar.host.url=$SONAR_HOST_URL
-                            /d:sonar.login=$SONAR_AUTH_TOKEN
-                        """.replaceAll("[\r\n]+"," ")
-
-                    //sh "${DOTNET_HOME}/dotnet restore Sonar.sln"
-                    sh "${MONO_HOME}/Commands/msbuild /t:rebuild Sonar.sln"
-                    sh """
-                        ${MONO_HOME}/Commands/mono 
-                            /opt/sonar-scanner-msbuild/SonarQube.Scanner.MSBuild.exe 
-                            end
-                            /d:sonar.login=$SONAR_AUTH_TOKEN
-                        """.replaceAll("[\r\n]+"," ")
-
-                    
-                }
-            }
-        }
-*/
-
 
         stage('Linux Server') {
             steps {
@@ -106,7 +63,6 @@ pipeline {
                     docker run 
                         --name=ummorpg
                         --restart=always
-                        -e MYSQL_ROOT_PASSWORD=mypwd 
                         -p 7777:7777/udp
                         -d ummorpg-server
                     """.replaceAll("[\r\n]+"," ")
@@ -119,8 +75,8 @@ pipeline {
                 dir ("build/linux-32") {
                     writeFile file:'info.txt', text:'Linux 32-bit'
                 }
-                sh "tar -cvf - -C target/linux-32 . | /usr/local/bin/gzip --rsyncable --best > build/linux-32/cubica.tar.gz"
-                archive 'build/linux-32/Cubica.tar.gz'
+                sh "tar -cvf - -C target/linux-32 . | /usr/local/bin/gzip --rsyncable --best > build/linux-32/ummorpg.tar.gz"
+                archive 'build/linux-32/ummorpg.tar.gz'
             }
         }
 
@@ -130,8 +86,8 @@ pipeline {
                 dir ("build/linux-64") {
                     writeFile file:'info.txt', text:'Linux 64-bit'
                 }
-                sh "tar -cvf - -C target/linux-64 . | /usr/local/bin/gzip --rsyncable --best > build/linux-64/cubica.tar.gz"
-                archive 'build/linux-64/Cubica.tar.gz'
+                sh "tar -cvf - -C target/linux-64 . | /usr/local/bin/gzip --rsyncable --best > build/linux-64/ummorpg.tar.gz"
+                archive 'build/linux-64/ummorpg.tar.gz'
             }
         }
         
@@ -166,16 +122,16 @@ pipeline {
                 sh """
                     msi-packager
                         target/win-64
-                        build/win-64/Cubica.msi
-                        --name Cubica
+                        build/win-64/ummorpg.msi
+                        --name ummorpg
                         --version 0.1
                         --manufacturer Mindblocks
                         --arch x64
                         --upgrade-code 25242f06-3fc1-4eee-bb82-2db53c18ea42
-                        --icon Cubica.ico
-                        --executable Cubica.exe
+                        --icon ummorpg.ico
+                        --executable ummorpg.exe
                     """.replaceAll("[\r\n]+"," ")
-                archive 'build/win-64/Cubica.msi'
+                archive 'build/win-64/ummorpg.msi'
             }
         }
 
@@ -185,8 +141,8 @@ pipeline {
                 dir ("build/mac-32") {
                     writeFile file:'info.txt', text:'Mac OS 32-bit'
                 }
-                sh "appdmg mac32build.json build/mac-32/Cubica.dmg"
-                archive 'build/mac-32/Cubica.dmg'
+                sh "appdmg mac32build.json build/mac-32/ummorpg.dmg"
+                archive 'build/mac-32/ummorpg.dmg'
             }
         }
 
@@ -196,8 +152,8 @@ pipeline {
                 dir ("build/mac-64") {
                     writeFile file:'info.txt', text:'Mac OS 64-bit'
                 }
-                sh "appdmg mac64build.json build/mac-64/Cubica.dmg"
-                archive 'build/mac-64/Cubica.dmg'
+                sh "appdmg mac64build.json build/mac-64/ummorpg.dmg"
+                archive 'build/mac-64/ummorpg.dmg'
             }
         }
 
@@ -206,9 +162,7 @@ pipeline {
 
         stage('Publish') {
             steps {
-                sh "rsync -av --progress -e \"ssh -p 18765\" -r build/ blockst0@blockstory.net:cubica.net/wp-content/build/"
-
-                //sh "scp -P18765 -v -r build/* blockst0@blockstory.net:cubica.net/wp-content/build/"
+                sh "rsync -av --progress  -r build/ you@yoursite.com:"
             }
         }
     }

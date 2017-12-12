@@ -14,7 +14,7 @@ class BuildAutomation
     static void MacOSX32()
     {
         GenericBuild(
-            Combine("target", "mac-32", "Cubica.app"),
+            Combine("target", "mac-32", "ummorpg.app"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneOSXIntel,
             BuildOptions.Development);
@@ -25,7 +25,7 @@ class BuildAutomation
     static void MacOSX64()
     {
         GenericBuild(
-            Combine("target", "mac-64", "Cubica.app"),
+            Combine("target", "mac-64", "ummorpg.app"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneOSXIntel64,
             BuildOptions.Development);
@@ -35,7 +35,7 @@ class BuildAutomation
     static void Windows32()
     {
         GenericBuild(
-            Combine("target", "win-32", "Cubica.exe"),
+            Combine("target", "win-32", "ummorpg.exe"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneWindows,
             BuildOptions.Development);
@@ -45,7 +45,7 @@ class BuildAutomation
     static void Windows64()
     {
         GenericBuild(
-            Combine("target", "win-64", "Cubica.exe"),
+            Combine("target", "win-64", "ummorpg.exe"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneWindows64,
             BuildOptions.Development);
@@ -55,7 +55,7 @@ class BuildAutomation
     static void Linux32()
     {
         GenericBuild(
-            Combine("target", "linux-32", "Cubica"),
+            Combine("target", "linux-32", "ummorpg"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux,
             BuildOptions.Development);
@@ -65,7 +65,7 @@ class BuildAutomation
     static void Linux64()
     {
         GenericBuild(
-            Combine("target", "linux-64", "Cubica"),
+            Combine("target", "linux-64", "ummorpg"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64,
             BuildOptions.Development);
@@ -75,7 +75,7 @@ class BuildAutomation
     static void LinuxServer()
     {
         GenericBuild(
-            Combine("target", "linux-server", "Cubica"),
+            Combine("target", "linux-server", "ummorpg"),
             BuildTargetGroup.Standalone,
             BuildTarget.StandaloneLinux64,
             BuildOptions.EnableHeadlessMode);
@@ -87,7 +87,7 @@ class BuildAutomation
     {
         PlayerSettings.Android.targetDevice = AndroidTargetDevice.x86;
         GenericBuild(
-            Combine("target", "android-x86", "Cubica.apk"),
+            Combine("target", "android-x86", "ummorpg.apk"),
             BuildTargetGroup.Android,
             BuildTarget.Android,
             BuildOptions.Development);
@@ -98,7 +98,7 @@ class BuildAutomation
     {
         PlayerSettings.Android.targetDevice = AndroidTargetDevice.ARMv7;
         GenericBuild(
-            Combine("target", "android-arm", "Cubica.apk"),
+            Combine("target", "android-arm", "ummorpg.apk"),
             BuildTargetGroup.Android,
             BuildTarget.Android,
             BuildOptions.Development);
@@ -107,7 +107,7 @@ class BuildAutomation
     static void AndroidIOS()
     {
         GenericBuild(
-            Combine("target", "android-ios", "Cubica"),
+            Combine("target", "android-ios", "ummorpg"),
             BuildTargetGroup.iOS,
             BuildTarget.iOS,
             BuildOptions.Development);
@@ -117,7 +117,7 @@ class BuildAutomation
     static void WebGL()
     {
         GenericBuild(
-            Combine("target", "webgl", "Cubica"),
+            Combine("target", "webgl", "ummorpg"),
             BuildTargetGroup.WebGL,
             BuildTarget.WebGL,
             BuildOptions.Development);
